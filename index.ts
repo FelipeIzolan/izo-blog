@@ -48,8 +48,6 @@ export default function(opts?: IzoBlogOptions) {
       for (const [key, value] of Object.entries(opts.templates))
         templates[key] = fs.readFileSync(value, { encoding: "utf8" });
 
-      console.log(templates)
-
       app.use(_static);
 
       app.get('/pages', (_, res) => {
