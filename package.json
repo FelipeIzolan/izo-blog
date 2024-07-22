@@ -1,20 +1,32 @@
 {
   "name": "izo-blog",
+  "description": "A plugin to handle qwik-based websites.",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "./dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rm -rf ./dist && tsc && cp -rf ./client ./dist/client"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "type": "module",
+  "keywords": [
+    "qwik",
+    "vite"
+  ],
+  "author": "Felipe Izolan",
+  "license": "MIT",
   "dependencies": {
     "polka": "^0.5.2",
     "sirv": "^2.0.4",
     "url-slug": "^4.0.1"
   },
   "devDependencies": {
+    "@types/node": "^20.14.11",
     "@types/polka": "^0.5.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FelipeIzolan/izo-blog.git"
   }
 }

@@ -4,7 +4,7 @@ import path from "path";
 import sirv from "sirv";
 import polka from "polka";
 
-import { join, index_page, chomp_prefix } from "./utils.js";
+import { join, index_page, chomp_prefix, __dirname } from "./utils.js";
 import { convert as url_slug } from "url-slug";
 
 import type { IzoBlogOptions } from "./types.js";
