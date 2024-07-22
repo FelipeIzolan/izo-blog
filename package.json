@@ -1,0 +1,20 @@
+{
+  "name": "izo-blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "polka": "^0.5.2",
+    "sirv": "^2.0.4",
+    "url-slug": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/polka": "^0.5.7"
+  }
+}
