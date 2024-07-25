@@ -2,7 +2,55 @@
 
 ![image](https://github.com/user-attachments/assets/ce0254c7-2e83-4723-bbcb-b430e5f44d70)
 
-# 📜 License
+## 🚀 Installation
+
+```
+npm install izo-blog
+```
+
+## 🍋 Usage
+
+```js
+const izoBlogOptions = {
+  templates: {
+    // template_name: template_path
+  }
+}
+export default defineConfig((): UserConfig => {
+  return {
+    plugins: [
+      izoBlog(myIzoBlogOptions),
+      qwikCity(QwikCityOptions),
+      qwikVite(),
+      tsconfigPaths(),
+    ],
+  // ...
+  }
+```
+
+**⚡ Options**
+
+```ts
+type IzoBlogOptions = {
+  templates: { [key: string]: string },
+  buildTemplate?: (route: string, title: string, template: string) => string,
+  onCreate?: (route: string, title: string, template: string) => void,
+  onSave?: (route: string) => void,
+  port?: number
+}
+```
+
+## ✍🏻 Editor
+
+The plugin starts an editor environment server on port 8080 (by default).
+
+- <img width=16 height=16 src="https://github.com/user-attachments/assets/ca1d6f4c-700c-4bee-8304-464b267470da"/> **(or CTRL + Space)** - Toggle select route menu.
+- <img width=16 height=16 src="https://github.com/user-attachments/assets/d62b0ffb-4cbf-4e85-90ab-19ec23cd335a"/> **(or CTRL + S)** - Save the current document.
+- <img width=16 height=16 src="https://github.com/user-attachments/assets/9bb22506-f302-4e3a-9f40-52e9b0c43f99"/> **(or CTRL + D)** - Create a new document.
+
+
+
+## 📜 License
 
 - [izo-blog](https://github.com/FelipeIzolan/izo-blog) - MIT
 - [polka](https://github.com/lukeed/polka) - MIT
