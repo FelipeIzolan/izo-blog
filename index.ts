@@ -39,11 +39,10 @@ export default function(opts?: IzoBlogOptions) {
     name: "izo-blog",
     configureServer() {
       const app = polka();
+      const _static = sirv(path.resolve(__dirname, "client"), { dev: true });
 
       const pages = get_pages();
       const templates: { [key: string]: string } = {};
-
-      const _static = sirv(path.resolve(__dirname, "client"), { dev: true });
 
       for (const [key, value] of Object.entries(opts.templates))
         templates[key] = fs.readFileSync(value, { encoding: "utf8" });
@@ -94,12 +93,18 @@ export default function(opts?: IzoBlogOptions) {
           const folder = join(route, url_slug(req.body.title));
           const file = path.join(folder, 'index' + path.extname(opts.templates[req.body.template]));
 
+          if (fs.existsSync(folder)) {
+            res.statusCode = 400;
+            return res.end();
+          }
+
           fs.mkdirSync(folder);
           fs.writeFileSync(file, template);
 
           if (opts.onCreate)
             opts.onCreate(route, req.body.title, template);
 
+          pages.push(chomp_prefix(folder));
           res.end(chomp_prefix(folder));
         }
       );

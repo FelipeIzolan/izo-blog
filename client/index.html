@@ -13,7 +13,7 @@
   <div id='editor'>
     <code-input language="md"></code-input>
     <div id='editor_bar'>
-      <button onclick="toggle()">
+      <button onclick="routes.toggle()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
           <path fill="#F6F6F6"
             d="m12.05 19l2.85-2.825l-2.85-2.825L11 14.4l1.075 1.075q-.7.025-1.362-.225t-1.188-.775q-.5-.5-.763-1.15t-.262-1.3q0-.425.113-.85t.312-.825l-1.1-1.1q-.425.625-.625 1.325T7 12q0 .95.375 1.875t1.1 1.65t1.625 1.088t1.85.387l-.95.95zm4.125-4.25q.425-.625.625-1.325T17 12q0-.95-.363-1.888T15.55 8.45t-1.638-1.075t-1.862-.35L13 6.05L11.95 5L9.1 7.825l2.85 2.825L13 9.6l-1.1-1.1q.675 0 1.375.263t1.2.762t.763 1.15t.262 1.3q0 .425-.112.85t-.313.825zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
@@ -25,7 +25,7 @@
             d="M21 7v14H3V3h14zm-9 11q1.25 0 2.125-.875T15 15t-.875-2.125T12 12t-2.125.875T9 15t.875 2.125T12 18m-6-8h9V6H6z" />
         </svg>
       </button>
-      <button onclick="create()">
+      <button onclick="creator.toggle()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
           <path fill="#F6F6F6"
             d="M13 14h2v-3h3V9h-3V6h-2v3h-3v2h3zm-5 4q-.825 0-1.412-.587T6 16V4q0-.825.588-1.412T8 2h12q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18zm0-2h12V4H8zm-4 6q-.825 0-1.412-.587T2 20V6h2v14h14v2zM8 4v12z" />
@@ -34,21 +34,20 @@
       <span></span>
     </div>
   </div>
-  <div data-route='' data-mode='preview' id='preview'>
-    <div>
-      <input type="text" placeholder="Search" />
-      <ul></ul>
-    </div>
-    <iframe style="display: none;"></iframe>
-  </div>
+  <iframe id="preview" data-route=''></iframe>
+  <editor-routes></editor-routes>
+  <editor-creator></editor-creator>
 </body>
 
-<script src="scripts/toastify.js"></script>
+<script src="scripts/lib/toastify.js"></script>
 
-<script src="scripts/prism.js"></script>
+<script src="scripts/lib/prism.js"></script>
 
-<script src="scripts/code-input.js"></script>
-<script src="scripts/code-input.indent.js"></script>
+<script src="scripts/lib/code-input.js"></script>
+<script src="scripts/lib/code-input.indent.js"></script>
+
+<script src="scripts/creator.js"></script>
+<script src="scripts/routes.js"></script>
 
 <script src="scripts/client.global.js"></script>
 <script src="scripts/client.function.js"></script>

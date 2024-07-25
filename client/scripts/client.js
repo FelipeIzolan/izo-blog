@@ -8,45 +8,21 @@ codeInput.registerTemplate(
   )
 );
 
-//--------------------------------------------------------//
-
-async function get(path) {
-  let req = await fetch(path)
-  let data = await req.json();
-
-  return data;
-}
-
-get('/pages').then(data => {
-  pages = data;
-  generateSelectList();
-});
-
-get('/templates').then(data => {
-  templates = data
-});
+routes.li_onclick = set;
+creator.button_onclick = create;
 
 //--------------------------------------------------------//
 
 document.onkeydown = (e) => {
-  const key = `${e.ctrlKey ? 'CTRL + ' : ''}${e.key}`;
+  const key = `${e.ctrlKey ? 'CTRL + ' : ''}${e.key.replace(' ', 'Space')}`;
 
-  if (preview.dataset.route == '' && select_shortcuts[key]) {
+  if (routes.style.display == 'none' && shortcuts[key]) {
     e.preventDefault();
-    select_shortcuts[key]();
+    return shortcuts[key]();
   }
 
-  if (preview.dataset.route != '' && content_shortcuts[key]) {
+  if ((routes.style.display == 'block' || creator.style.display == 'block') && in_shortcuts[key]) {
     e.preventDefault();
-    content_shortcuts[key]();
-  }
-}
-
-preview_select_input.oninput = () => {
-  for (const child of preview_select_list.children) {
-    child.style.display =
-      child.innerText.includes(preview_select_input.value) ?
-        'block' :
-        'none';
+    return in_shortcuts[key]();
   }
 }

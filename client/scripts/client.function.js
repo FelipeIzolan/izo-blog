@@ -1,15 +1,5 @@
-function create() {
-  if (!preview.dataset.route) return toast('⚠️ select a route!');
-  if (!templates.length) return toast('❌ no templates found!');
-
-  let template = Number(prompt("Choose a template by index:\n" + generateTemplatesPrompt()));
-
-  if (isNaN(template) || template > templates.length - 1)
-    return toast('❌ invalid template.');
-  else
-    template = templates[template];
-
-  let title = prompt("Type page title: ");
+function create(title, template) {
+  if (preview.dataset.route == '') return toast('⚠️ No document found');
 
   fetch('/create', {
     method: "PUT",
@@ -19,17 +9,23 @@ function create() {
       'Content-Type': 'application/json'
     },
   })
-    .then(res => res.text())
-    .then(route => {
-      pages.push(route);
-      generateSelectList();
-      ul_index = preview_select_list.children.length - 1;
-      set();
+    .then(res => {
+      if (res.status == 400) throw '⛔ Document already exists'
+      else return res.text()
     })
+    .then(route => {
+      routes.items.push(route);
+      preview.dataset.route = route;
+      toast('✅ Created!');
+      set(false);
+    })
+    .catch(err => toast(err))
+
+  creator.toggle();
 }
 
 function save() {
-  if (preview.dataset.route == '') return;
+  if (preview.dataset.route == '') return toast('⚠️ No document found');
 
   fetch('/save', {
     method: "PUT",
@@ -38,32 +34,23 @@ function save() {
       'Content-Route': preview.dataset.route,
       'Content-Type': 'text/plain'
     },
-  }).then(() => toast('💾 saved!'));
+  }).then(() => toast('💾 Saved!'));
 }
 
 //--------------------------------------------------------//
 
-function toggle() {
-  if (preview.dataset.route == '') set();
-  else clear();
-}
+function set(from_routes = true) {
+  let route = from_routes ? routes.get().innerText : preview.dataset.route;
 
-function set() {
-  preview_select.style.display = 'none';
-  preview_iframe.style.display = 'block';
+  preview.dataset.route = route;
+  editor_panel.children[3].innerText = route;
 
-  let el = preview_select_list.children[ul_index];
-  preview.dataset.route = el.innerText;
-  editor_panel.children[3].innerText = el.innerText;
+  preview.src = `http://localhost:5173${preview.dataset.route}`;
 
-  preview_iframe.src = `http://localhost:5173${preview.dataset.route}`;
-
-  let source = fetch('/content', {
+  fetch('/content', {
     method: "POST",
     headers: { 'Content-Route': preview.dataset.route },
-  });
-
-  source
+  })
     .then(res => res.json())
     .then(({ ext, content }) => {
       editor_box.value = content;
@@ -71,43 +58,6 @@ function set() {
     })
 
   editor_box.focus();
-}
-
-function clear() {
-  preview_select.style.display = 'block';
-  preview_iframe.style.display = 'none';
-
-  preview.dataset.route = '';
-  preview_select_input.value = '';
-  preview_select_input.focus();
-  preview_select_input.oninput();
-
-  editor_box.value = '';
-  editor_panel.children[3].innerText = '';
-}
-
-//--------------------------------------------------------//
-
-function select(index, scroll) {
-  preview_select_list.children[ul_index].className = '';
-  preview_select_list.children[index].className = 'select';
-  ul_index = index;
-
-  if (scroll)
-    preview_select_list.children[index].scrollIntoView({ block: "center", behavior: "smooth" });
-}
-
-function move(dir) {
-  let max = preview_select_list.children.length - 1;
-  let index = clamp(ul_index + dir, 0, max);
-
-  while (preview_select_list.children[index].style.display == 'none') {
-    index = clamp(index + dir, 0, max);
-    if (index == 0 || index == max) {
-      index = ul_index;
-      break;
-    }
-  }
-
-  select(index, true);
+  if (from_routes)
+    routes.toggle();
 }
