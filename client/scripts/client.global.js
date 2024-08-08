@@ -21,6 +21,7 @@ const shortcuts = {
 
 const in_shortcuts = {
   ...shortcuts,
+  'Escape': () => routes.style.display == 'block' ? routes.toggle() : creator.style.display == 'block' ? creator.toggle() : null,
   'Enter': () => routes.style.display == 'block' ? set() : creator.style.display == 'block' ? creator.click() : null,
   'ArrowUp': () => routes.style.display == 'block' ? routes.setIndex(routes.index - 1, true) : null,
   'ArrowDown': () => routes.style.display == 'block' ? routes.setIndex(routes.index + 1, true) : null

@@ -1,8 +1,10 @@
-import fs from "fs";
+import fs, { write } from "fs";
 import path from "path";
 
 import sirv from "sirv";
 import polka from "polka";
+
+import { SitemapStream } from "sitemap";
 
 import { join, index_page, chomp_prefix, __dirname } from "./utils.js";
 import { convert as url_slug } from "url-slug";
@@ -37,6 +39,22 @@ export default function(opts?: IzoBlogOptions) {
 
   return {
     name: "izo-blog",
+    buildEnd() {
+      if (!opts.hostname) return;
+
+      const file = path.resolve('./dist/sitemap.xml');
+      const pages = get_pages();
+
+      const readable = new SitemapStream({ hostname: opts.hostname });
+      const writable = fs.createWriteStream(file);
+
+      readable.pipe(writable);
+
+      for (const page of pages)
+        readable.write({ url: page });
+
+      readable.on('close', () => writable.close());
+    },
     configureServer() {
       const app = polka();
       const _static = sirv(path.resolve(__dirname, "client"), { dev: true });

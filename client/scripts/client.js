@@ -16,6 +16,8 @@ creator.button_onclick = create;
 document.onkeydown = (e) => {
   const key = `${e.ctrlKey ? 'CTRL + ' : ''}${e.key.replace(' ', 'Space')}`;
 
+  console.log(key)
+
   if (routes.style.display == 'none' && shortcuts[key]) {
     e.preventDefault();
     return shortcuts[key]();

@@ -35,7 +35,7 @@ class Routes extends HTMLElement {
     `;
 
     this.input.oninput = _ =>
-      this.render(this.items.filter(x => x.includes(this.input.value)));
+      this.render(this.items.filter(x => x.includes(this.input.value.toLowerCase())));
 
     this.input.placeholder = 'Search';
     this.input.style.cssText = `
